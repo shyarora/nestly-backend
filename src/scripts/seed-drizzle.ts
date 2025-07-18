@@ -1,6 +1,10 @@
+import dotenv from "dotenv";
 import { db } from "../db";
 import { users, properties, amenities, propertyAmenities } from "../db/schema";
 import bcrypt from "bcryptjs";
+
+// Load environment variables
+dotenv.config();
 
 async function seed() {
     try {

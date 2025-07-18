@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import dotenv from "dotenv";
 import express from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -8,6 +9,9 @@ import cors from "cors";
 import { createContext } from "./lib/context";
 import { client } from "./db";
 import http from "http";
+
+// Load environment variables
+dotenv.config();
 
 // Use the working simple resolvers instead of complex ones
 import { SimpleUserResolver } from "./resolvers/SimpleUserResolver";
