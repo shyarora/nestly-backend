@@ -1,11 +1,13 @@
 import { Resolver, Query, Ctx } from "type-graphql";
 import { Amenity } from "../types";
-import { Context } from "../types/context";
+import { Context } from "../lib/context";
+import { amenities } from "../db/schema";
 
 @Resolver(() => Amenity)
 export class SimpleAmenityResolver {
     @Query(() => [Amenity])
-    async amenities(@Ctx() { prisma }: Context = {} as Context): Promise<Amenity[]> {
-        return (await prisma.amenity.findMany()) as any;
+    async amenities(@Ctx() { db }: Context): Promise<Amenity[]> {
+        const allAmenities = await db.select().from(amenities);
+        return allAmenities as any;
     }
 }
