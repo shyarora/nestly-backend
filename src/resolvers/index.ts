@@ -1,6 +1,5 @@
-import { UserResolver } from "./UserResolver";
-import { PropertyResolver } from "./PropertyResolver";
-import { BookingResolver } from "./BookingResolver";
-import { AmenityResolver } from "./AmenityResolver";
+import { SimpleUserResolver } from "./SimpleUserResolver";
+import { SimplePropertyResolver } from "./SimplePropertyResolver";
+import { SimpleAmenityResolver } from "./SimpleAmenityResolver";
 
-export { UserResolver, PropertyResolver, BookingResolver, AmenityResolver };
+export { SimpleUserResolver, SimplePropertyResolver, SimpleAmenityResolver };
