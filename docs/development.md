@@ -42,7 +42,7 @@ pnpm dev:notification # Notification Service (port 5006)
 - **Service Discovery**: http://localhost:5000 (Interactive dashboard)
 - **API Gateway GraphQL**: http://localhost:5000/graphql
 - **Property Service**: http://localhost:5000/property-service/graphql
-- **Auth Service**: http://localhost:5000/auth-service/graphql  
+- **Auth Service**: http://localhost:5000/auth-service/graphql
 - **Booking Service**: http://localhost:5000/booking-service/graphql
 - **Payment Service**: http://localhost:5000/payment-service/graphql
 - **Review Service**: http://localhost:5000/review-service/graphql
@@ -232,11 +232,13 @@ pnpm dev:property     # Property Service only
 ### Single Port vs Direct Port Access
 
 **Single Port (Recommended):**
+
 - All services: `http://localhost:5000/[service-name]/[endpoint]`
 - Service discovery: `http://localhost:5000`
 - Easier development and testing
 
 **Direct Port Access:**
+
 - Each service on its own port (5001-5006)
 - Useful for debugging individual services
 

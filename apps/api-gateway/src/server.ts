@@ -23,12 +23,12 @@ await fastify.register(cors, {
 
 // Service Configuration
 const services = {
-    'property-service': { port: 5001, name: 'Property Service' },
-    'auth-service': { port: 5002, name: 'Auth Service' },
-    'booking-service': { port: 5003, name: 'Booking Service' },
-    'payment-service': { port: 5004, name: 'Payment Service' },
-    'review-service': { port: 5005, name: 'Review Service' },
-    'notification-service': { port: 5006, name: 'Notification Service' },
+    "property-service": { port: 5001, name: "Property Service" },
+    "auth-service": { port: 5002, name: "Auth Service" },
+    "booking-service": { port: 5003, name: "Booking Service" },
+    "payment-service": { port: 5004, name: "Payment Service" },
+    "review-service": { port: 5005, name: "Review Service" },
+    "notification-service": { port: 5006, name: "Notification Service" },
 };
 
 // Manual proxy function
@@ -36,40 +36,40 @@ async function proxyRequest(request: any, reply: any, targetUrl: string, service
     try {
         // Parse the URL to get the path properly
         const originalPath = request.url;
-        let targetPath = '';
-        
+        let targetPath = "";
+
         // Remove service path prefix and any query parameters
         if (originalPath.startsWith(servicePath)) {
             targetPath = originalPath.substring(servicePath.length);
             // If path is empty after removing service prefix, default to root
-            if (!targetPath || targetPath === '') {
-                targetPath = '/';
+            if (!targetPath || targetPath === "") {
+                targetPath = "/";
             }
             // Ensure path starts with /
-            if (!targetPath.startsWith('/')) {
-                targetPath = '/' + targetPath;
+            if (!targetPath.startsWith("/")) {
+                targetPath = "/" + targetPath;
             }
         } else {
             targetPath = originalPath;
         }
-        
+
         const fullTargetUrl = `${targetUrl}${targetPath}`;
-        
+
         fastify.log.info(`🔀 Proxying: ${originalPath} -> ${fullTargetUrl}`);
-        
+
         const response = await fetch(fullTargetUrl, {
             method: request.method,
             headers: {
                 ...request.headers,
                 host: undefined, // Remove host header to avoid conflicts
-                'content-type': request.headers['content-type'],
+                "content-type": request.headers["content-type"],
             },
-            body: request.method !== 'GET' && request.method !== 'HEAD' && request.body ? JSON.stringify(request.body) : undefined,
+            body: request.method !== "GET" && request.method !== "HEAD" && request.body ? JSON.stringify(request.body) : undefined,
         });
 
         // Copy response headers
         response.headers.forEach((value, key) => {
-            if (key !== 'content-encoding' && key !== 'transfer-encoding') {
+            if (key !== "content-encoding" && key !== "transfer-encoding") {
                 reply.header(key, value);
             }
         });
@@ -79,9 +79,9 @@ async function proxyRequest(request: any, reply: any, targetUrl: string, service
         return reply.send(responseText);
     } catch (error) {
         fastify.log.error(`Proxy error for ${targetUrl}: ${error}`);
-        return reply.status(503).send({ 
-            error: 'Service Unavailable', 
-            message: error instanceof Error ? error.message : 'Unknown error' 
+        return reply.status(503).send({
+            error: "Service Unavailable",
+            message: error instanceof Error ? error.message : "Unknown error",
         });
     }
 }
@@ -90,17 +90,17 @@ async function proxyRequest(request: any, reply: any, targetUrl: string, service
 for (const [serviceName, config] of Object.entries(services)) {
     const targetUrl = `http://localhost:${config.port}`;
     const servicePath = `/${serviceName}`;
-    
+
     // Handle all HTTP methods for each service with wildcard
     fastify.all(`${servicePath}/*`, async (request, reply) => {
         return proxyRequest(request, reply, targetUrl, servicePath);
     });
-    
+
     // Handle root service path (without trailing slash) - redirect to service root
     fastify.all(servicePath, async (request, reply) => {
         return proxyRequest(request, reply, targetUrl, servicePath);
     });
-    
+
     fastify.log.info(`📡 Registered route: ${servicePath}/* -> ${targetUrl}`);
 }
 
@@ -219,7 +219,9 @@ fastify.get("/", async (request, reply) => {
                 </div>
             </div>
 
-            ${serviceList.map(service => `
+            ${serviceList
+                .map(
+                    service => `
             <div class="service-card">
                 <div class="service-name">${service.name}</div>
                 <div class="endpoint">
@@ -239,7 +241,9 @@ fastify.get("/", async (request, reply) => {
                     <a href="http://localhost:${service.port}/graphql" target="_blank">http://localhost:${service.port}/graphql</a>
                 </div>
             </div>
-            `).join('')}
+            `,
+                )
+                .join("")}
         </div>
 
         <div class="footer">
@@ -250,7 +254,7 @@ fastify.get("/", async (request, reply) => {
 </body>
 </html>`;
 
-    reply.type('text/html');
+    reply.type("text/html");
     return html;
 });
 
@@ -262,7 +266,7 @@ async function start() {
         fastify.log.info(`📊 GraphQL Playground: http://${HOST}:${PORT}/graphql`);
         fastify.log.info(`🔍 Service Discovery: http://${HOST}:${PORT}/services`);
         fastify.log.info(`📡 Proxied Services:`);
-        
+
         for (const [serviceName, config] of Object.entries(services)) {
             fastify.log.info(`   /${serviceName} -> ${config.name} (port ${config.port})`);
         }
