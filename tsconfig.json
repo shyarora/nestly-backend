@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "preserve",
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@nestly/database": ["./packages/database/src"],
+            "@nestly/common": ["./packages/common/src"],
+            "@nestly/auth": ["./packages/auth/src"],
+            "@nestly/graphql-types": ["./packages/graphql-types/src"]
+        }
+    },
+    "include": ["apps/**/*", "packages/**/*", "tools/**/*", "tests/**/*"],
+    "exclude": ["node_modules", "dist", "coverage"]
+}

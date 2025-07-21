@@ -1,0 +1,6 @@
+type Query {
+  # Health check endpoints
+  livez: String!
+  readyz: String!
+  hello: String!
+}

@@ -1,0 +1,28 @@
+{
+    "name": "@nestly/database",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+        "dev": "tsx watch src/index.ts",
+        "generate": "drizzle-kit generate:pg",
+        "migrate": "tsx src/migrations/migrate.ts",
+        "studio": "drizzle-kit studio",
+        "seed": "tsx src/seeds/index.ts",
+        "type-check": "tsc --noEmit"
+    },
+    "dependencies": {
+        "drizzle-orm": "^0.29.3",
+        "postgres": "^3.4.3",
+        "dotenv": "^16.3.1"
+    },
+    "devDependencies": {
+        "drizzle-kit": "^0.20.13",
+        "tsx": "^4.7.0",
+        "tsup": "^8.0.1",
+        "typescript": "^5.3.3",
+        "@types/node": "^20.11.0"
+    }
+}

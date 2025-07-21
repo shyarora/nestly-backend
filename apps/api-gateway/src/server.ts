@@ -1,0 +1,64 @@
+import { ApolloServer } from "@apollo/server";
+import fastifyApollo, { fastifyApolloDrainPlugin } from "@as-integrations/fastify";
+import Fastify from "fastify";
+import cors from "@fastify/cors";
+import { typeDefs } from "./schema/index.js";
+import { resolvers } from "./resolvers/index.js";
+import type { GraphQLContext } from "./context/apollo-context.js";
+
+const PORT = parseInt(process.env.PORT || "5000");
+const HOST = process.env.HOST || "localhost";
+
+// Create Fastify instance
+const fastify = Fastify({
+    logger: true,
+});
+
+// Register CORS
+await fastify.register(cors, {
+    origin: true,
+    credentials: true,
+});
+
+// Create Apollo Server
+const apollo = new ApolloServer<GraphQLContext>({
+    typeDefs,
+    resolvers,
+    plugins: [fastifyApolloDrainPlugin(fastify)],
+    introspection: process.env.NODE_ENV !== "production",
+});
+
+// Start Apollo Server
+await apollo.start();
+
+// Register Apollo with Fastify
+await fastify.register(fastifyApollo(apollo));
+
+// Health check endpoints (REST for Kubernetes)
+fastify.get("/livez", async () => {
+    return { status: "alive", service: "api-gateway", timestamp: new Date().toISOString() };
+});
+
+fastify.get("/readyz", async () => {
+    try {
+        // Add any readiness checks here
+        return { status: "ready", service: "api-gateway", timestamp: new Date().toISOString() };
+    } catch (error) {
+        fastify.log.error(error);
+        throw new Error("Service not ready");
+    }
+});
+
+// Start server
+async function start() {
+    try {
+        await fastify.listen({ port: PORT, host: HOST });
+        fastify.log.info(`🚀 API Gateway running at http://${HOST}:${PORT}/graphql`);
+        fastify.log.info(`📊 GraphQL Playground available in development mode`);
+    } catch (error) {
+        fastify.log.error(error);
+        process.exit(1);
+    }
+}
+
+start();

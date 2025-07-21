@@ -1,0 +1,30 @@
+{
+  "name": "booking-service",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/server.ts",
+    "build": "tsup src/server.ts --format esm --target node18 --clean",
+    "start": "node dist/server.js",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.10.0",
+    "@apollo/subgraph": "^2.6.0",
+    "@as-integrations/fastify": "^2.1.1",
+    "fastify": "^4.26.0",
+    "@fastify/cors": "^9.0.1",
+    "graphql": "^16.8.1",
+    "@nestly/database": "workspace:*",
+    "@nestly/common": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  }
+}
