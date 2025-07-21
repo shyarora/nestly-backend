@@ -26,13 +26,38 @@ pnpm dev
 pnpm stop
 
 # Or start services individually
-pnpm dev:gateway      # API Gateway (port 5000)
+pnpm dev:gateway      # API Gateway (port 5000) - Single entry point
 pnpm dev:property     # Property Service (port 5001)
 pnpm dev:auth         # Auth Service (port 5002)
 pnpm dev:booking      # Booking Service (port 5003)
 pnpm dev:payment      # Payment Service (port 5004)
 pnpm dev:review       # Review Service (port 5005)
 pnpm dev:notification # Notification Service (port 5006)
+```
+
+## 🌐 Single Port Access (Recommended)
+
+**All services are accessible through port 5000 with path-based routing:**
+
+- **Service Discovery**: http://localhost:5000 (Interactive dashboard)
+- **API Gateway GraphQL**: http://localhost:5000/graphql
+- **Property Service**: http://localhost:5000/property-service/graphql
+- **Auth Service**: http://localhost:5000/auth-service/graphql  
+- **Booking Service**: http://localhost:5000/booking-service/graphql
+- **Payment Service**: http://localhost:5000/payment-service/graphql
+- **Review Service**: http://localhost:5000/review-service/graphql
+- **Notification Service**: http://localhost:5000/notification-service/graphql
+
+### Quick Access URLs
+
+```bash
+# Service Discovery Dashboard
+open http://localhost:5000
+
+# All GraphQL Playgrounds via single port
+open http://localhost:5000/property-service/graphql
+open http://localhost:5000/auth-service/graphql
+# ... etc
 ```
 
 ## 🏗️ Service Architecture
@@ -195,11 +220,25 @@ pnpm stop
 # Check health of all services
 ./check-health.sh
 
+# Access service discovery dashboard
+open http://localhost:5000
+
 # Start individual services
 pnpm dev:gateway      # API Gateway only
 pnpm dev:property     # Property Service only
 # ... etc
 ```
+
+### Single Port vs Direct Port Access
+
+**Single Port (Recommended):**
+- All services: `http://localhost:5000/[service-name]/[endpoint]`
+- Service discovery: `http://localhost:5000`
+- Easier development and testing
+
+**Direct Port Access:**
+- Each service on its own port (5001-5006)
+- Useful for debugging individual services
 
 ## 🚦 Service Health Monitoring
 
