@@ -11,4 +11,4 @@ WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'nestly')\gexec
 -- Create extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
-CREATE EXTENSION IF NOT EXISTS "postgis"; -- For geospatial queries (optional)
+-- CREATE EXTENSION IF NOT EXISTS "postgis"; -- For geospatial queries (optional) - requires postgis package

@@ -23,6 +23,7 @@
         "jsonwebtoken": "^9.0.2",
         "google-auth-library": "^9.7.0",
         "drizzle-orm": "^0.29.0",
+        "dotenv": "^16.3.1",
         "@nestly/database": "workspace:*",
         "@nestly/common": "workspace:*"
     },
