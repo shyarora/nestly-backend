@@ -3,18 +3,11 @@ import fastifyApollo, { fastifyApolloDrainPlugin } from "@as-integrations/fastif
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { resolvers } from "./resolvers/index.js";
+import { typeDefs } from "./schema/index.js";
+import { createAuthContext } from "./middleware/auth.middleware.js";
 
 const PORT = parseInt(process.env.PORT || "5002");
 const HOST = process.env.HOST || "localhost";
-
-// Simple GraphQL schema for health checks
-const typeDefs = `
-  type Query {
-    livez: String!
-    readyz: String!
-    hello: String!
-  }
-`;
 
 // Create Fastify instance
 const fastify = Fastify({
@@ -39,7 +32,11 @@ const apollo = new ApolloServer({
 await apollo.start();
 
 // Register Apollo with Fastify
-await fastify.register(fastifyApollo(apollo), {});
+await fastify.register(fastifyApollo(apollo), {
+    context: async request => {
+        return await createAuthContext(request);
+    },
+});
 
 // Health check endpoints (REST for Kubernetes)
 fastify.get("/livez", async () => {

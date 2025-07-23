@@ -1,0 +1,58 @@
+type User {
+    id: ID!
+    email: String!
+    firstName: String!
+    lastName: String!
+    avatar: String
+    phone: String
+    isPhoneVerified: Boolean!
+    roles: [String!]!
+    createdAt: String!
+    updatedAt: String!
+}
+
+type AuthPayload {
+    user: User!
+    accessToken: String!
+    refreshToken: String!
+}
+
+input GoogleAuthInput {
+    googleIdToken: String!
+}
+
+input UpdateProfileInput {
+    firstName: String
+    lastName: String
+    phone: String
+}
+
+input VerifyPhoneInput {
+    phone: String!
+    verificationCode: String!
+}
+
+type Query {
+    # Health checks
+    livez: String!
+    readyz: String!
+    hello: String!
+
+    # User queries
+    me: User
+    validateToken: Boolean!
+}
+
+type Mutation {
+    # Authentication mutations
+    googleAuth(input: GoogleAuthInput!): AuthPayload!
+    refreshToken(token: String!): AuthPayload!
+    logout: Boolean!
+
+    # Profile management
+    updateProfile(input: UpdateProfileInput!): User!
+    verifyPhone(input: VerifyPhoneInput!): Boolean!
+
+    # Admin only
+    updateUserRoles(userId: ID!, roles: [String!]!): User!
+}

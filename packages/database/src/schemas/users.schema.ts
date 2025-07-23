@@ -8,6 +8,7 @@ export const users = pgTable("users", {
     lastName: varchar("last_name", { length: 100 }).notNull(),
     avatar: text("avatar"),
     phone: varchar("phone", { length: 20 }),
+    roles: jsonb("roles").$type<string[]>().default(["user"]),
     isEmailVerified: boolean("is_email_verified").default(false),
     isPhoneVerified: boolean("is_phone_verified").default(false),
     createdAt: timestamp("created_at").defaultNow(),
