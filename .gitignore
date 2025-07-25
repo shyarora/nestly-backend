@@ -47,3 +47,7 @@ temp/
 # Drizzle
 .drizzle/
 .turbo
+
+*.env
+
+.turbo

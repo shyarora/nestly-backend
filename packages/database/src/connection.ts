@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
 
-const connectionString = process.env.DATABASE_URL || "postgresql://postgres:password@localhost:5432/nestly";
+const connectionString = process.env.DATABASE_URL || "";
 
 // Create postgres connection with better error handling
 const client = postgres(connectionString, {

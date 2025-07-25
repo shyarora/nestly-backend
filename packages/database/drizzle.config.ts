@@ -9,7 +9,7 @@ export default {
     out: "./src/migrations",
     driver: "pg",
     dbCredentials: {
-        connectionString: process.env.DATABASE_URL || "postgresql://postgres:password@localhost:5432/nestly",
+        connectionString: process.env.DATABASE_URL || "",
     },
     verbose: true,
     strict: true,
