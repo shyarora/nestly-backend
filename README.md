@@ -14,7 +14,7 @@ A scalable, open-source Airbnb-like backend built with modern technologies and f
 
 ### Core Technologies
 
-- **Runtime**: Node.js 18+
+- **Runtime**: Bun (Modern JavaScript runtime)
 - **API**: GraphQL with Apollo Server
 - **Database**: MongoDB Atlas (Free Tier)
 - **Cache**: Redis Cloud (Free Tier)
@@ -88,12 +88,12 @@ A scalable, open-source Airbnb-like backend built with modern technologies and f
 
 ### Prerequisites
 
-- Node.js 18+
-- Docker & Docker Compose
-- MongoDB Atlas account
-- Redis Cloud account
-- Cloudflare account
-- Razorpay account
+- **Bun** 1.0+ (replaces Node.js)
+- **Docker & Docker Compose**
+- **MongoDB Atlas account**
+- **Redis Cloud account**
+- **Cloudflare account**
+- **Razorpay account**
 
 ### Environment Setup
 
@@ -102,8 +102,11 @@ A scalable, open-source Airbnb-like backend built with modern technologies and f
 git clone <repository-url>
 cd nestly-backend
 
+# Install Bun (if not already installed)
+curl -fsSL https://bun.sh/install | bash
+
 # Install dependencies
-npm install
+bun install
 
 # Copy environment template
 cp .env.example .env
@@ -111,8 +114,30 @@ cp .env.example .env
 # Configure environment variables
 # Edit .env with your service credentials
 
-# Start development server
-npm run dev
+# Start development server with hot reload
+bun run dev
+```
+
+### Available Scripts
+
+```bash
+# Development
+bun run dev          # Start with hot reload
+bun run build        # Production build
+bun run start        # Production server
+
+# Testing
+bun test             # Run tests
+bun test --watch     # Watch mode
+
+# Quality
+bun run lint         # ESLint check
+bun run lint:fix     # Fix ESLint issues
+bun run format       # Prettier format
+
+# Database
+bun run db:seed      # Seed database
+bun run db:migrate   # Run migrations
 ```
 
 ### Docker Development
@@ -123,7 +148,29 @@ docker-compose up --build
 
 # Run in background
 docker-compose up -d
+
+# View logs
+docker-compose logs -f app
+
+# Stop services
+docker-compose down
 ```
+
+### Quick Start
+
+1. **Install Bun**: `curl -fsSL https://bun.sh/install | bash`
+2. **Install deps**: `bun install`
+3. **Setup env**: `cp .env.example .env`
+4. **Start dev**: `bun run dev`
+5. **Visit**: `http://localhost:4000/graphql`
+
+### Performance Benefits
+
+- ⚡ **25x faster** package installs vs npm
+- 🔥 **Native TypeScript** - no transpilation needed
+- 🚀 **Built-in bundler** for production builds
+- ⏱️ **Instant hot reload** in development
+- 📦 **All-in-one tool** - runtime + bundler + package manager
 
 ## 📁 Project Structure
 

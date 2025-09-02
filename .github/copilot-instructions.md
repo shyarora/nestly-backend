@@ -96,9 +96,8 @@ export class BookingService {
     @CurrentUser() userId: string
   ): Promise<Booking> {
     try {
-      const availability = await this.propertyService.checkAvailability(
-        bookingData
-      );
+      const availability =
+        await this.propertyService.checkAvailability(bookingData);
 
       if (!availability.isAvailable) {
         throw new ConflictError("Property not available for selected dates");
@@ -229,6 +228,21 @@ const createBooking = async (data, user) => {
 - **Authentication**: Verify JWT tokens on protected routes
 - **Authorization**: Role-based access control
 - **Data Privacy**: Never log sensitive information
+
+### Code Quality Constraints
+
+- **File Size Limit**: Maximum 500-600 lines per file
+- **Modular Design**: Split large files into smaller, focused modules
+- **Single Responsibility**: Each file should have one clear purpose
+- **Import Organization**: Use index files for clean exports
+
+### Runtime & Build Tools
+
+- **Runtime**: Bun (modern JavaScript runtime)
+- **Package Manager**: Bun (replaces npm/yarn/pnpm)
+- **TypeScript**: Native Bun support with decorators
+- **Hot Reload**: Bun's built-in watch mode
+- **Bundling**: Bun's native bundler for production
 
 ### Free Tier Limitations
 

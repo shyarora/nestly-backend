@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Application
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://mongo:27017/nestly
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - mongo
+      - redis
+    volumes:
+      - ./src:/app/src
+      - ./logs:/app/logs
+    command: bun --watch src/index.ts
+
+  # MongoDB
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=nestly
+    volumes:
+      - mongo_data:/data/db
+    command: mongod --quiet
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  # MongoDB Express (Optional GUI)
+  mongo-express:
+    image: mongo-express:1.0.2
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=password
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
+  redis_data:
